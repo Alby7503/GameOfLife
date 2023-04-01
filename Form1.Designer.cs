@@ -26,13 +26,15 @@
             ButtonTick = new Button();
             LabelAlive = new Label();
             LabelDebug = new Label();
+            ButtonPlay = new Button();
+            ScrollBarSpeed = new HScrollBar();
             SuspendLayout();
             // 
             // ButtonTick
             // 
             ButtonTick.Anchor =  AnchorStyles.Bottom | AnchorStyles.Right;
             ButtonTick.AutoSize = true;
-            ButtonTick.Location = new Point(713, 413);
+            ButtonTick.Location = new Point(713, 405);
             ButtonTick.Name = "ButtonTick";
             ButtonTick.Size = new Size(75, 25);
             ButtonTick.TabIndex = 0;
@@ -60,11 +62,34 @@
             LabelDebug.TabIndex = 2;
             LabelDebug.Text = "Debug";
             // 
+            // ButtonPlay
+            // 
+            ButtonPlay.Anchor =  AnchorStyles.Bottom | AnchorStyles.Right;
+            ButtonPlay.AutoSize = true;
+            ButtonPlay.Location = new Point(632, 405);
+            ButtonPlay.Name = "ButtonPlay";
+            ButtonPlay.Size = new Size(75, 25);
+            ButtonPlay.TabIndex = 3;
+            ButtonPlay.Text = "Play";
+            ButtonPlay.UseVisualStyleBackColor = true;
+            ButtonPlay.Click += ButtonPlay_Click;
+            // 
+            // ScrollBarSpeed
+            // 
+            ScrollBarSpeed.Dock = DockStyle.Bottom;
+            ScrollBarSpeed.Location = new Point(0, 433);
+            ScrollBarSpeed.Name = "ScrollBarSpeed";
+            ScrollBarSpeed.Size = new Size(800, 17);
+            ScrollBarSpeed.TabIndex = 4;
+            ScrollBarSpeed.Scroll += ScrollBarSpeed_Scroll;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(ScrollBarSpeed);
+            Controls.Add(ButtonPlay);
             Controls.Add(LabelDebug);
             Controls.Add(LabelAlive);
             Controls.Add(ButtonTick);
@@ -79,5 +104,7 @@
         private Button ButtonTick;
         private Label LabelAlive;
         private Label LabelDebug;
+        private Button ButtonPlay;
+        private HScrollBar ScrollBarSpeed;
     }
 }

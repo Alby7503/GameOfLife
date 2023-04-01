@@ -1,24 +1,21 @@
 namespace GameOfLife {
     public partial class Form1 : Form {
-        //private readonly bool Running = true;
-        private const short BoardWidth = 10;
-        private const short BoardHeight = 10;
-        private static Size ButtonSize = new(30, 30);
+        private int PlaySpeed = 500;
+        private readonly bool Running = true;
+        private const short BoardWidth = 20;
+        private const short BoardHeight = 20;
+        private static Size ButtonSize = new(20, 20);
         private readonly short[] Adjacent = new short[] { -1, 0, +1 };
         private LinkedList<(short y, short x)> Alive = new();
         private LinkedList<(short y, short x)> BufferedAlive = new();
         private readonly short ButtonDistanceWidth = (short) ButtonSize.Width;
         private readonly short ButtonDistanceHeight = (short) ButtonSize.Height;
         private readonly Button[,] Board = new Button[BoardHeight, BoardHeight];
+        private CancellationTokenSource PlayToken = new();
         public Form1() {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             DrawBoard();
-            /*new Thread(() => {
-                do {
-                    Tick();
-                    Thread.Sleep(1000);
-                } while (Running);
-            }).Start();*/
         }
 
         private void DrawBoard() {
@@ -96,6 +93,8 @@ namespace GameOfLife {
                 //Check if a cell should spawn
                 short y, x;
                 foreach (Button Cell in GetCellsIterator(Y, X)) {
+                    if (ChangeToBlack.Contains(Cell) || ChangeToWhite.Contains(Cell))
+                        continue;
                     (y, x) = GetCellCoordinates(Cell);
                     if (GetAdjacent(y, x) == 3) {
                         BufferedAlive.AddLast((y, x));
@@ -178,5 +177,28 @@ namespace GameOfLife {
         }
 
         private void ButtonTick_Click(object sender, EventArgs e) => Tick();
+
+        private void ButtonPlay_Click(object sender, EventArgs e) {
+            if (ButtonTick.Enabled) {
+                ButtonTick.Enabled = false;
+                new Thread(() => {
+                    do {
+                        Tick();
+                        Thread.Sleep(PlaySpeed);
+                    } while (!PlayToken.IsCancellationRequested);
+                    ButtonPlay.Text = "Play";
+                    ButtonTick.Enabled = true;
+                    PlayToken = new();
+                }).Start();
+                ButtonPlay.Text = "Stop";
+            }
+            else {
+                PlayToken.Cancel();
+            }
+        }
+
+        private void ScrollBarSpeed_Scroll(object sender, ScrollEventArgs e) {
+            PlaySpeed = (e.NewValue * 10) + 100;
+        }
     }
 }
