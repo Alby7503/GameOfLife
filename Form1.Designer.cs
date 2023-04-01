@@ -25,6 +25,7 @@
         private void InitializeComponent() {
             ButtonTick = new Button();
             LabelAlive = new Label();
+            LabelDebug = new Label();
             SuspendLayout();
             // 
             // ButtonTick
@@ -49,11 +50,22 @@
             LabelAlive.TabIndex = 1;
             LabelAlive.Text = "Alive: 0";
             // 
+            // LabelDebug
+            // 
+            LabelDebug.Anchor =  AnchorStyles.Top | AnchorStyles.Right;
+            LabelDebug.AutoSize = true;
+            LabelDebug.Location = new Point(743, 24);
+            LabelDebug.Name = "LabelDebug";
+            LabelDebug.Size = new Size(42, 15);
+            LabelDebug.TabIndex = 2;
+            LabelDebug.Text = "Debug";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(LabelDebug);
             Controls.Add(LabelAlive);
             Controls.Add(ButtonTick);
             Name = "Form1";
@@ -66,5 +78,6 @@
 
         private Button ButtonTick;
         private Label LabelAlive;
+        private Label LabelDebug;
     }
 }
